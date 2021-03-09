@@ -1,0 +1,161 @@
+/* Body */
+body{
+
+    background-color: #EDEDED;
+    color: darkgray;
+}
+
+/* Navbar */
+.navbar-brand{
+    margin-left: 10px;
+    padding: 10px;
+    background-color: rgb(81, 175, 160);
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    font-size: 25px;
+}
+.navbar{
+
+    max-height: 60px;
+    background-color: #c8cac9;
+
+}
+
+h4{
+    color: rgb(81, 175, 160);
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 5;
+}
+
+h3 {
+    color: rgb(81, 175, 160);
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    padding-top: 25px;
+}
+
+.navigation .navbar-brand{
+    color: white;
+    margin-left: 35px;
+    padding: 15px;
+    font-weight: bold;
+    background-color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.navbar{
+    background-color: white;
+    font-size: 18px;
+}
+
+a{
+    color: #6D8092;
+    font-size: 15px;
+}
+
+/* navbar styling*/
+.navbar{
+    padding-top:0px;
+    padding-bottom: 0px;
+    padding-right:40px;
+}
+
+.nav-item.dropdown.show {
+    background-color: #ddd;
+}
+
+.dropdown-menu {
+    margin: 0;
+}
+
+/* content styling*/
+.content {
+    padding-top: 50px;
+    padding-bottom: 80px;
+    overflow: hidden;
+}
+
+.content.bg-white {
+    margin-top: 15px;
+}
+
+.col-md-12{
+    background-color: white;
+    padding-top: 20px;
+    padding-bottom:40px;
+}
+
+/* image styling*/
+/* img{
+    width:100% ;
+    height:100%;
+} */
+
+.img-thumbnail{
+    padding:10px;
+    border: none;
+}
+
+
+/* image border styling*/
+.pic{
+    border: 3px solid rgb(81, 175, 160);
+}
+
+/* header for comparison page */
+.imageNav-header {
+    color: rgb(81, 175, 160);
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    font-size: 23px;
+    text-align: center;
+    
+}
+
+/* Paragraph*/
+p{
+color: grey;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 18px;
+}
+
+/* Box Class */
+.box {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    margin-left: 10px;
+    padding: 10px 20px 15px;
+    color:black;
+    background-color: white;
+}
+.box1 {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    margin-left: 50px;
+    margin-right: 70px;
+    padding: 10px 10px 30px;
+    color: black;
+    background-color: white;
+}
+/* Table */
+.table{
+    font-size: 15px;
+    margin-left: 50px;
+    margin-right: 0px;
+  
+}
+
+/* small screen adjustments*/
+@media(max-width:767px){
+    .navbar.bg-light{
+        background-color: rgb(81, 175, 160)!important;    
+    }
+
+    .navbar-collapse{
+        background-color: rgb(81, 175, 160);
+    }
+    .navbar{
+        padding:inherit;
+    }
+}
