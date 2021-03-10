@@ -6,16 +6,16 @@ d3.json(eqDataURL, function(data) {
     createFeatures(data.features);
 });
 
-// Create the function to generate the feature feature data
+// Create function to generate the markers and popups
 function createFeatures(eqData) {
     var earthquakes = L.geoJSON(eqData, {
         onEachFeature: function(feature, layer) {
-            layer.bindPopup("<p><h3>Magnitude: " + feature.properties.mag +"</h3></p><p><h3>Location: "+ feature.properties.place +
-              "</h3></p><p>" + new Date(feature.properties.time) + "</p>");
+            layer.bindPopup("<p><h3>Magnitude: " + feature.properties.mag +"</h3></p><hr><p><strong>Location:</strong> "+ feature.properties.place +
+              "</h3></p><p><strong>Date & Time:</strong> " + new Date(feature.properties.time) + "</p>");
         },
 
         pointToLayer: function (feature, latlng) {
-            return new L.circleMarker(latlng,
+            return new L.CircleMarker(latlng,
               {radius: markerRadius(feature.properties.mag),
               fillColor: markerColor(feature.properties.mag),
               fillOpacity: 1,
@@ -31,10 +31,10 @@ function createFeatures(eqData) {
 
 //Create function for calculating radius based on magnitude
 function markerRadius(magnitude) {
-    return Math.pow(magnitude, 2);
+    return magnitude*5;
 };
 
-// Create color function
+// Create function for marker color and legend color
 function markerColor(magnitude) {
     switch (true) {
       case magnitude > 5:
@@ -54,7 +54,7 @@ function markerColor(magnitude) {
 
 function createMap(eqs) {
 
-    // Define the map layers
+    // Define the base map layer
     var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
         attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
         tileSize: 512,
@@ -65,7 +65,7 @@ function createMap(eqs) {
     });
 
     // Create our map
-    var myMap = L.map("map-id", {
+    var myMap = L.map("map", {
         center: [37.09, -95.71],
         zoom: 5,
         layers: [lightmap, eqs]

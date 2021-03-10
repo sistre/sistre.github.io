@@ -7,22 +7,20 @@ d3.json(eqDataURL, function(data) {
     createFeatures(data.features);
 });
 
-// Create the function to generate the feature feature data
+// Create function to generate the markers and popups
 function createFeatures(eqData) {
     var earthquakes = L.geoJSON(eqData, {
         onEachFeature: function(feature, layer) {
-            layer.bindPopup("<p><h3>Magnitude: " + feature.properties.mag +"</h3></p><p><h3>Location: "+ feature.properties.place +
-              "</h3></p><p>" + new Date(feature.properties.time) + "</p>");
+            layer.bindPopup("<p><h3>Magnitude: " + feature.properties.mag +"</h3></p><hr><p><strong>Location:</strong> "+ feature.properties.place +
+              "</h3></p><p><strong>Date & Time:</strong> " + new Date(feature.properties.time) + "</p>");
         },
 
         pointToLayer: function (feature, latlng) {
-            return new L.circle(latlng,
+            return new L.CircleMarker(latlng,
               {radius: markerRadius(feature.properties.mag),
               fillColor: markerColor(feature.properties.mag),
-              fillOpacity: .5,
-              color: "black",
-              stroke: true,
-              weight: .8
+              fillOpacity: 1,
+              stroke: false
               })
         }
     });
@@ -30,9 +28,33 @@ function createFeatures(eqData) {
     createMap(earthquakes);
 };
 
+//Create function for calculating radius based on magnitude
+function markerRadius(magnitude) {
+    return magnitude*5;
+};
+
+// Create function for marker color and legend color
+function markerColor(magnitude) {
+    switch (true) {
+      case magnitude > 5:
+        return "red";
+      case magnitude > 4:
+        return "orangered";
+      case magnitude > 3:
+        return "orange";
+      case magnitude > 2:
+        return "yellow";
+      case magnitude > 1:
+        return "lime";
+      default:
+        return "green";
+    }
+  };
+
+
 function createMap(eqs) {
 
-    // Create the base maps
+    // Define the base map layers
     var satellite = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
         attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
         tileSize: 512,
@@ -60,7 +82,7 @@ function createMap(eqs) {
         accessToken: API_KEY
     });
 
-      // Store the base map layers
+    // Store the base map layers
     var baseMaps = {
         "Satellite": satellite,
         "Grayscale": lightmap,
@@ -73,20 +95,20 @@ function createMap(eqs) {
     // Create overlay object to hold overlay layer
     var overlayMaps = {
         "Earthquakes": eqs,
-        "Tectonic Plates": tectonicBoundries
+        "Fault Lines": tectonicBoundries
     };
 
     // Create our map
-    var myMap = L.map("map-id", {
+    var myMap = L.map("map", {
         center: [37.09, -95.71],
         zoom: 5,
-        layers: [lightmap, eqs, tectonicBoundries]
+        layers: [satellite, tectonicBoundries, eqs]
     });
 
     // Add tectonic plates data
     d3.json(tectonicBoundryDataURL, function(tectonicData) {
         L.geoJson(tectonicData, {
-            color: "lemonchiffon",
+            color: "darkviolet",
             weight: 2
         })
         .addTo(tectonicBoundries);
@@ -117,27 +139,4 @@ function createMap(eqs) {
     };
     
     legend.addTo(myMap);
-};
-
-// Create color function
-function markerColor(magnitude) {
-    switch (true) {
-      case magnitude > 5:
-        return "red";
-      case magnitude > 4:
-        return "orangered";
-      case magnitude > 3:
-        return "orange";
-      case magnitude > 2:
-        return "yellow";
-      case magnitude > 1:
-        return "lime";
-      default:
-        return "green";
-    }
-  };
-
-//Create function for calculating radius based on magnitude
-function markerRadius(magnitude) {
-    return Math.pow(magnitude, 2);
 };
